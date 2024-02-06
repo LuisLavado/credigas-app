@@ -7,7 +7,7 @@ Simulamos la instalación para ver si no hay ningún conflicto
 👉 composer require --dry-run laravel/telescope
 
 Si no hay ningún conflicto, se procede a instalar de la manera convencional.
-👉 composer require laravel/telescope
+👉 composer require laravel/telescope --dev
 
 👉 php artisan telescope:install
 El comando php artisan telescope:install en Laravel se utiliza para instalar y configurar Laravel Telescope en tu aplicación. 
@@ -26,5 +26,10 @@ Después de ejecutar este comando, deberías poder acceder a la interfaz web de 
 
 👉 php artisan migrate
 
+
 Laravel Permisos (Permisos por usuarios y por Roles):
-👉  composer require spatie/laravel-permission
+
+Simulamos la instalación para ver si no hay ningún conflicto 
+👉 composer require --dry-run spatie/laravel-permission
+Si no hay ningún conflicto, se procede a instalar de la manera convencional.
+👉 composer require spatie/laravel-permission

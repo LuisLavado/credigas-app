@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\UserLoginRequest;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Auth;
@@ -10,11 +11,75 @@ use Illuminate\Validation\ValidationException;
 
 class AuthController extends Controller
 {
-    public function login(Request $request)
+    /**
+     * Display the specified resource.
+     * @param  string  $email
+     * @param  string  $password
+     * @param  string  $name
+     * @return \Illuminate\Http\Response
+     * @OA\Post(
+     *     path="/auth/login",
+     *     tags={"Autenticacion"},
+     *     summary="Opcion para iniciar sesion",
+     *     @OA\RequestBody(
+     *         required=true,
+     *         @OA\MediaType(
+     *             mediaType="application/json",
+     *             @OA\Schema(
+     *                 @OA\Property(
+     *                      type="object",
+     *                      @OA\Property(
+     *                          property="name",
+     *                          type="string",
+     *                          example ="Google Chrome"
+     *                      ),
+     *                      @OA\Property(
+     *                          property="email",
+     *                          type="string",
+     *                          example="superadmin@example.com"
+     *                      ),
+     *                      @OA\Property(
+     *                          property="password",
+     *                          type="string",
+     *                          example="12345678"
+     *                      )
+     *                 ),
+     *                 example={
+     *                     "name":"Google Chrome",
+     *                     "email":"superadmin@example.com",
+     *                     "password":"12345678"
+     *                }
+     *             )
+     *         )
+     *      ),
+     *      @OA\Response(
+     *          response=200,
+     *          description="Valid credentials",
+     *          @OA\JsonContent(
+     *                @OA\Property(property="token", type="string", example="randomtokenasfhajskfhajf398rureuuhfdshk"),
+     *                      @OA\Property(property="token_type", type="string", example="Bearer"),
+     *                      @OA\Property(property="message", type="string", example="Success"),
+     *          )
+     *      ),
+     *     @OA\Response(
+     *         response=422,
+     *         description="Usuario o Contraseña no validas",
+     *         @OA\MediaType(
+     *           mediaType="application/json",
+     *         )
+     *     ),
+     *     @OA\Response(
+     *         response="default",
+     *         description="Ha ocurrido un error.",
+     *         @OA\MediaType(
+     *           mediaType="application/json",
+     *         )
+     *     )
+     * )
+     */
+    public function login(UserLoginRequest $request)
     {
         try {
-            $this->validateLogin($request);
-
             if (Auth::attempt($request->only('email', 'password'))) {
                 $response = [
                     'success' => true,
@@ -39,15 +104,6 @@ class AuthController extends Controller
                 'message' => 'Unauthorized',
             ], Response::HTTP_UNAUTHORIZED);
         }
-    }
-
-    public function validateLogin(Request $request)
-    {
-        return $request->validate([
-            'email' => 'required|email',
-            'password' => 'required',
-            'name' => 'required',
-        ]);
     }
 
     public function me(Request $request)
