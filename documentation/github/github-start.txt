@@ -1,0 +1,16 @@
+Inicializando repositorio y establecer la rama principal como "main". 
+
+1. Inicializar el Repositorio:
+git init
+2. Agregar Archivos y Hacer Commit (Opcional):
+git add .
+git commit -m "Primer commit"
+
+3. Establecer la Rama Principal:
+git branch -m main
+
+4. Conectar con un Repositorio Remoto (Opcional):
+git remote add origin git@github.com:LuisLavado/credigas-app.git
+
+5. Hacer el primer push:
+git push -u origin main

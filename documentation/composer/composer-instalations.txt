@@ -1,0 +1,30 @@
+Intalación de telescope : 
+-----------------------
+Laravel Telescope es una herramienta de depuración y monitorización para aplicaciones Laravel que proporciona una interfaz elegante para inspeccionar las consultas de la base de datos, los trabajos en segundo plano, los eventos emitidos, las solicitudes HTTP y más.
+
+
+Simulamos la instalación para ver si no hay ningún conflicto 
+👉 composer require --dry-run laravel/telescope
+
+Si no hay ningún conflicto, se procede a instalar de la manera convencional.
+👉 composer require laravel/telescope
+
+👉 php artisan telescope:install
+El comando php artisan telescope:install en Laravel se utiliza para instalar y configurar Laravel Telescope en tu aplicación. 
+
+Cuando ejecutas php artisan telescope:install, realiza varias tareas:
+
+Publicación de archivos de recursos: Copia los archivos de recursos necesarios para Telescope a tu directorio de activos público para que puedan ser accedidos desde el navegador.
+
+Migraciones de base de datos: Ejecuta las migraciones necesarias para crear las tablas de base de datos requeridas por Telescope.
+
+Configuración en el archivo de configuración Telescope: Agrega la configuración de Telescope a tu archivo config/telescope.php. Este archivo de configuración te permite personalizar diversos aspectos de cómo Telescope funciona en tu aplicación.
+
+Configuración en el archivo de configuración de middleware: Si no está ya configurado, Telescope agrega su middleware al archivo app/Http/Kernel.php. Este middleware captura información sobre cada solicitud HTTP para su visualización en la interfaz de usuario de Telescope.
+
+Después de ejecutar este comando, deberías poder acceder a la interfaz web de Telescope en tu aplicación Laravel para ver métricas y detalles de depuración. Puedes acceder a la interfaz generalmente a través de la ruta /telescope en tu aplicación en el navegador.
+
+👉 php artisan migrate
+
+Laravel Permisos (Permisos por usuarios y por Roles):
+👉  composer require spatie/laravel-permission

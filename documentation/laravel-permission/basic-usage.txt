@@ -1,0 +1,130 @@
+Link de referencia 👉 https://spatie.be/docs/laravel-permission/v6/basic-usage/basic-usage
+
+Uso básico
+##Agregar el rasgo
+Primero, agregue el rasgo Spatie\Permission\Traits\HasRoles a sus modelos de usuario:
+
+<?php
+
+use Illuminate\Foundation\Auth\User as Authenticatable;
+use Spatie\Permission\Traits\HasRoles;
+
+class User extends Authenticatable
+{
+    use HasRoles;
+
+    // ...
+}
+
+?>
+
+#Crear un permiso
+Este paquete permite asociar usuarios con permisos y roles. Cada rol está asociado con múltiples permisos. Un rol y un permiso son modelos habituales de Eloquent. Requieren un nombre y se pueden crear así:
+
+<?php
+
+use Spatie\Permission\Models\Role;
+use Spatie\Permission\Models\Permission;
+
+$role = Role::create(['name' => 'writer']);
+$permission = Permission::create(['name' => 'edit articles']);
+
+?>
+
+#Asignar un permiso a un rol
+Se puede asignar un permiso a un rol mediante cualquiera de estos métodos:
+<?php
+
+$role->givePermissionTo($permission);
+$permission->assignRole($role);
+
+?>
+
+
+#Sincronizar permisos con un rol
+Se pueden sincronizar varios permisos con una función mediante cualquiera de estos métodos:
+
+<?php
+
+$role->syncPermissions($permissions);
+$permission->syncRoles($roles);
+
+?>
+
+#Remove Permission From A Role
+A permission can be removed from a role using either of these methods:
+
+<?php
+
+$role->revokePermissionTo($permission);
+$permission->removeRole($role);
+
+?>
+
+#Nombre del guardia
+Si está utilizando varios guardias, también se debe configurar el atributo guard_name. Lea sobre esto en la sección sobre uso de múltiples guardias del archivo Léame.
+
+#Obtener permisos para un usuario
+El rasgo HasRoles agrega relaciones elocuentes a sus modelos, a las que se puede acceder directamente o usar como consulta base:
+
+<?php
+
+// obtener una lista de todos los permisos asignados directamente al usuario
+$permissionNames = $user->getPermissionNames(); // colección de cadenas de nombres
+$permissions = $user->permissions; // colección de objetos de permiso
+
+// obtiene todos los permisos para el usuario, ya sea directamente, desde roles o desde ambos
+$permissions = $user->getDirectPermissions();
+$permissions = $user->getPermissionsViaRoles();
+$permissions = $user->getAllPermissions();
+
+// obtener los nombres de los roles del usuario
+$roles = $user->getRoleNames(); // Returns a collection
+
+?>
+
+#Alcances
+El rasgo HasRoles también agrega alcances de roles y sin roles a sus modelos para limitar la consulta a ciertos roles o permisos:
+
+<?php
+$users = User::role('writer')->get(); // // Devuelve sólo usuarios con el rol 'writer'
+$nonEditors = User::withoutRole('editor')->get(); // Devuelve sólo usuarios sin el rol 'editor'
+?>
+
+Los ámbitos role y withoutRole pueden aceptar una cadena, un objeto \Spatie\Permission\Models\Role o un objeto \Illuminate\Support\Collection.
+
+El mismo rasgo también agrega ámbitos para obtener solo usuarios que tienen o no un determinado permiso.
+
+<?php
+$users = User::permission('edit articles')->get(); // Returns only users with the permission 'edit articles' (inherited or directly)
+$usersWhoCannotEditArticles = User::withoutPermission('edit articles')->get(); // Returns all users without the permission 'edit articles' (inherited or directly)
+?>
+
+El alcance puede aceptar una cadena, un objeto \Spatie\Permission\Models\Permission o un objeto \Illuminate\Support\Collection.
+
+#LlamadasElocuentes
+Dado que los modelos de rol y permiso se extienden de los modelos de Eloquent, también se pueden utilizar llamadas básicas de Eloquent:
+
+<?php
+$all_users_with_all_their_roles = User::with('roles')->get();
+$all_users_with_all_their_direct_permissions = User::with('permissions')->get();
+$all_roles_in_database = Role::all()->pluck('name');
+$users_without_any_roles = User::doesntHave('roles')->get();
+$all_roles_except_a_and_b = Role::whereNotIn('name', ['role A', 'role B'])->get();
+?>
+
+#Contando usuarios que tienen un rol
+Una forma de contar todos los usuarios que tienen un determinado rol es filtrando la colección de todos los usuarios con sus roles:
+
+<?php
+$superAdminCount = User::with('roles')->get()->filter(
+    fn ($user) => $user->roles->where('name', 'Super Admin')->toArray()
+)->count();
+?>
+
+
+
+
+
+
+

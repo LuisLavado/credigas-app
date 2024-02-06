@@ -1,0 +1,7 @@
+👉 composer require --dry-run package-name
+Con esto se simula la instalación pero sin agregar ningún paquete, si no hay ningún conflicto se procede a instalar de la manera convencional.
+
+Ejemplo: composer require --dry-run laravel/telescope
+
+Ejemplo: composer require --dry-run spatie/laravel-permission
+

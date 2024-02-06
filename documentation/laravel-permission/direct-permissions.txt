@@ -1,0 +1,50 @@
+Permisos directos
+##Mejores prácticas
+Es mejor asignar permisos a roles y luego asignar roles a usuarios.
+
+Consulte la sección Roles vs Permisos de los documentos para obtener una explicación más detallada.
+
+SIN EMBARGO, si tiene motivos para asignar directamente permisos individuales a usuarios específicos (en lugar de roles asignados a esos usuarios), puede hacerlo como se describe a continuación:
+
+##Permisos directos a los usuarios
+Se puede otorgar un permiso a cualquier usuario:
+
+<?php
+$user->givePermissionTo('edit articles');
+
+// También puedes otorgar varios permisos a la vez
+$user->givePermissionTo('edit articles', 'delete articles');
+
+// También puedes pasar una matriz
+$user->givePermissionTo(['edit articles', 'delete articles']);
+?>
+
+Se puede revocar un permiso a un usuario:
+👉 $user->revokePermissionTo('edit articles');
+
+Or revoke & add new permissions in one go:
+👉 $user->syncPermissions(['edit articles', 'delete articles']);
+
+Puede comprobar si un usuario tiene permiso:
+👉 $user->hasPermissionTo('edit articles');
+
+O puede pasar un número entero que represente la identificación (id) del permiso.
+
+<?php
+$user->hasPermissionTo('1');
+$user->hasPermissionTo(Permission::find(1)->id);
+$user->hasPermissionTo($somePermission->id);
+?>
+
+Puede comprobar si un usuario tiene alguno de una serie de permisos:
+👉$user->hasAnyPermission(['edit articles', 'publish articles', 'unpublish articles']);
+
+...o si un usuario tiene todos los permisos:
+👉 $user->hasAllPermissions(['edit articles', 'publish articles', 'unpublish articles']);
+
+También puede pasar números enteros para buscar por ID de permiso.
+
+👉 $user->hasAnyPermission(['edit articles', 1, 5]);
+
+Como todos los permisos asignados a través de roles, puedes verificar si un usuario tiene un permiso usando la función predeterminada de Laravel:
+👉 $user->can('edit articles');

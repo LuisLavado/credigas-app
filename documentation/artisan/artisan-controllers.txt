@@ -1,0 +1,7 @@
+👉 php artisan make:controller Api/AuthController
+👉 
+👉 
+👉 
+👉 
+👉 
+👉 

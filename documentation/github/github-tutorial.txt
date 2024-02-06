@@ -1,0 +1,20 @@
+Inicializando repositorio y establecer la rama principal como "main". 
+
+1. Inicializar el Repositorio:
+👉 git init
+2. Agregar Archivos y Hacer Commit (Opcional):
+👉 git add .
+👉 git commit -m "Primer commit"
+
+3. Establecer la Rama Principal:
+Para establecer la rama principal como "main", puedes usar el siguiente comando:
+👉 git branch -m main
+
+4. Conectar con un Repositorio Remoto (Opcional):
+Si deseas conectar tu repositorio local con uno remoto en plataformas como GitHub, GitLab o Bitbucket, puedes agregar el control remoto y hacer el primer push:
+👉 git remote add origin <url-del-repositorio-remoto.git>
+👉 git push -u origin main
+
+Reemplaza <url-del-repositorio-remoto.git> con la URL de tu repositorio remoto.
+
+Ahora, tu rama principal debería estar configurada como "main". Recuerda que estos son pasos generales y podrían variar dependiendo de tu situación específica. ¡Espero que esto te ayude!
