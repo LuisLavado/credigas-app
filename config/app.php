@@ -196,6 +196,9 @@ return [
         App\Providers\RouteServiceProvider::class,
         App\Providers\TelescopeServiceProvider::class,
 
+        // laravel-permission
+        Spatie\Permission\PermissionServiceProvider::class,
+
     ],
 
     /*

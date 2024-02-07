@@ -27,9 +27,51 @@ Después de ejecutar este comando, deberías poder acceder a la interfaz web de 
 👉 php artisan migrate
 
 
-Laravel Permisos (Permisos por usuarios y por Roles):
+Installing Laravel Permisos (Permisos por usuarios y por Roles):
+
+1. Consult the Prerequisites page for important considerations regarding your User models!
+
+2. This package publishes a config/permission.php file. If you already have a file by that name, you must rename or remove it.
+
+3. You can install the package via composer:
 
 Simulamos la instalación para ver si no hay ningún conflicto 
 👉 composer require --dry-run spatie/laravel-permission
 Si no hay ningún conflicto, se procede a instalar de la manera convencional.
 👉 composer require spatie/laravel-permission
+
+4. Optional: The service provider will automatically get registered. Or you may manually add the service provider in your config/app.php file:
+'providers' => [
+    // ...
+    Spatie\Permission\PermissionServiceProvider::class,
+];
+
+5. You should publish the migration and the config/permission.php config file with:
+👉 php artisan vendor:publish --provider="Spatie\Permission\PermissionServiceProvider"
+
+6. ANTES DE REALIZAR MIGRACIONES
+
+Si está utilizando UUID, consulte la sección Avanzado de los documentos sobre los pasos de UUID antes de continuar. Explica algunos cambios que quizás desee realizar en las migraciones y en el archivo de configuración antes de continuar. También menciona consideraciones importantes después de ampliar los modelos de este paquete para la capacidad UUID.
+
+Si va a utilizar las funciones de TEAMS, debe actualizar su archivo de configuración config/permission.php:
+
+debe establecer 'equipos' => verdadero,
+y (opcional) puede configurar el nombre team_foreign_key en el archivo de configuración si desea utilizar una clave externa personalizada en su base de datos para equipos.
+Si está utilizando MySQL 8, consulte los archivos de migración para obtener notas sobre MySQL 8 para establecer/limitar la longitud de la clave de índice y edítela en consecuencia. Si recibe ERROR: 1071 La clave especificada era demasiado larga, entonces debe hacer esto.
+
+7. Clear your config cache. This package requires access to the permission config settings in order to run migrations. If you've been caching configurations locally, clear your config cache with either of these commands:
+
+👉 php artisan optimize:clear
+ # or
+👉 php artisan config:clear
+
+
+8. Run the migrations: After the config and migration have been published and configured, you can create the tables for this package by running:
+👉 php artisan migrate
+
+9. Add the necessary trait to your User model:
+
+// The User model requires this trait
+ use HasRoles;
+
+10. Consult the Basic Usage section of the docs to get started using the features of this package.
