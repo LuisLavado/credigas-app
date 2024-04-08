@@ -1,0 +1,144 @@
+php artisan migrate
+php artisan migrate:reset
+///////////////////////////////////////////////
+php artisan make:test Models/UserTest --unit
+///////////////////////////////////////////////
+php artisan make:model Repository -mf
+php artisan make:test Models/RepositoryTest --unit
+php artisan make:test Http/controllers/RepositoryControllerTest
+php artisan make:controller RepositoryController
+///////////////////////////////////////////////
+composer require laravel/sanctum
+php artisan vendor:publish --provider="Laravel\Sanctum\SanctumServiceProvider"
+
+php artisan make:controller Api/LoginController
+///////////////////////////////////////////////
+php artisan make:migration create_tipos_documentos_identidad_table
+public function up()
+{
+    Schema::create('tipos_documentos_identidad', function (Blueprint $table) {
+        $table->id();
+        $table->string('code_sunat');
+        $table->string('descripcion');
+        $table->string('descripcion_abreviada');
+        // $table->timestamps();
+    });
+
+    // Inserta los datos iniciales
+    DB::table('tipos_documentos_identidad')->insert([
+        ['code_sunat' => '01', 'descripcion' => 'DOCUMENTO NACIONAL DE IDENTIDAD', 'descripcion_abreviada' => 'DNI'],
+        ['code_sunat' => '04', 'descripcion' => 'CARNÉ DE EXTRANJERÍA', 'descripcion_abreviada' => 'CARNÉ EXT.'],
+        ['code_sunat' => '06', 'descripcion' => 'REG. ÚNICO DE CONTRIBUYENTES', 'descripcion_abreviada' => 'RUC'],
+        ['code_sunat' => '07', 'descripcion' => 'PASAPORTE', 'descripcion_abreviada' => 'PASAPORTE'],
+        ['code_sunat' => '09', 'descripcion' => 'CARNÉ DE SOLICIT DE REFUGIO', 'descripcion_abreviada' => 'CARNÉ SOLIC REFUGIO'],
+        ['code_sunat' => '11', 'descripcion' => 'PARTIDA DE NACIMIENTO', 'descripcion_abreviada' => 'PART. NAC.'],
+        ['code_sunat' => '22', 'descripcion' => 'CARNÉ DE IDENTIDAD - RELACIONES EXTERIORES', 'descripcion_abreviada' => 'C.IDENT.-RREE'],
+        ['code_sunat' => '23', 'descripcion' => 'CARNÉ DE PERM.TEMP.PERMANENCIA', 'descripcion_abreviada' => 'CARNÉ PTP'],
+        ['code_sunat' => '24', 'descripcion' => 'DOC. DE IDENTIDAD EXTRANJERO', 'descripcion_abreviada' => 'DOC.ID.EXTR.'],
+    ]);
+}
+
+php artisan make:model TipoDocumentoIdentidad -mf
+///////////////////////////////////////////////
+php artisan make:migration create_tipos_persona_table
+public function up()
+{
+    Schema::create('tipos_persona', function (Blueprint $table) {
+        $table->id();
+        $table->string('codigo');
+        $table->string('nombre');
+        $table->integer('orden');
+        $table->boolean('estado');
+        // $table->timestamps();
+    });
+
+    // Insertar datos iniciales en la tabla
+    DB::table('tipos_persona')->insert([
+        ['codigo' => '01', 'nombre' => 'Persona natural', 'orden' => 1, 'estado' => true],
+        ['codigo' => '02', 'nombre' => 'Persona jurídica', 'orden' => 2, 'estado' => true],
+    ]);
+}
+///////////////////////////////////////////////
+php artisan make:migration create_personas_table
+public function up()
+{
+    Schema::create('personas', function (Blueprint $table) {
+        $table->id();
+
+        $table->string('codigo');
+        $table->string('nombre_completo');
+        $table->unsignedBigInteger('tipo_persona_id');
+        $table->date('fecha_nac');
+
+        $table->timestamps();
+
+        // Definir la clave foránea para tipo_persona_id
+        $table->foreign('tipo_persona_id')->references('id')->on('tipos_persona');
+    
+    });
+}
+///////////////////////////////////////////////
+php artisan make:migration create_personas_naturales_table
+public function up()
+{
+    Schema::create('personas_naturales', function (Blueprint $table) {
+        $table->id();
+        $table->string('nombres', 90);
+        $table->string('papellido', 70)->nullable();
+        $table->string('sapellido', 70)->nullable();
+        $table->string('sexo', 3)->nullable();
+        $table->timestamps();
+    });
+
+    Schema::table('personas_naturales', function (Blueprint $table) {
+        // $table->primary('id');
+        $table->foreign('id')->references('id')->on('personas')->onDelete('cascade');
+    });
+}
+
+public function down()
+{
+    Schema::table('personas_naturales', function (Blueprint $table) {
+        $table->dropForeign('personas_naturales_id_foreign');
+    });
+    Schema::dropIfExists('personas_naturales');
+}
+///////////////////////////////////////////////
+php artisan make:migration create_personas_juridicas_table
+
+///////////////////////////////////////////////
+///////////////////////////////////////////////
+///////////////////////////////////////////////
+///////////////////////////////////////////////
+php artisan make:migration create_tipo_medio_pago_table
+php artisan make:migration create_entidad_financiera_table
+php artisan make:migration create_tipo_moneda_table
+php artisan make:migration create_tipo_existencia_table
+php artisan make:migration create_codigo_unidad_medida_table
+php artisan make:migration create_tipo_comprobante_pago_table
+php artisan make:migration create_codigo_aduana_table
+php artisan make:migration create_tipo_operacion_table
+php artisan make:migration create_catalogo_existencias_table
+php artisan make:migration create_metodo_valuacion_table
+php artisan make:migration create_tipo_titulo_table
+php artisan make:migration create_tipo_acciones_participaciones_table
+php artisan make:migration create_plan_cuentas_table
+php artisan make:migration create_tipo_activo_fijo_table
+php artisan make:migration create_estado_activo_fijo_table
+php artisan make:migration create_metodo_depreciacion_table
+php artisan make:migration create_codigo_agrupamiento_costo_produccion_table
+php artisan make:migration create_catalogo_estados_financieros_table
+php artisan make:migration create_convenios_doble_tributacion_table
+php artisan make:migration create_tipo_vinculacion_economica_table
+php artisan make:migration create_patrimonio_neto_table
+php artisan make:migration create_clasificacion_bienes_servicios_table
+php artisan make:migration create_tipo_renta_table
+php artisan make:migration create_modalidad_servicio_sujeto_no_domiciliado_table
+php artisan make:migration create_exoneraciones_no_domiciliados_table
+php artisan make:migration create_codigo_rubros_estados_financieros_table
+php artisan make:migration create_paises_table
+
+///////////////////////////////////////////////
+///////////////////////////////////////////////
+
+

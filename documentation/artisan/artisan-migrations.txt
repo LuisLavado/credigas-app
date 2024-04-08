@@ -1,5 +1,9 @@
 👉 php artisan migrate
 
+👉 php artisan make:migration create_tipos_persona_table
+👉 
+👉 
+👉 
 👉 
 👉 
 👉 

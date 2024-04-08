@@ -2,6 +2,9 @@ Creacion del proyecto:
 👉 composer create-project laravel/laravel credigas-app "9.*"
 👉 composer create-project laravel/laravel:^9 credigas-app
 
+https://platzi.com/new-home/clases/8154-buenas-practicas-api/65164-creacion-de-datos-factories-y-seeders/
+https://platzi.com/new-home/clases/1959-laravel-avanzado/30086-como-crear-comandos-para-la-terminal-de-laravel/
+
 Limpiar caché de Laravel:
 
 php artisan route:cache
@@ -18,3 +21,10 @@ DB_PORT=3306
 DB_DATABASE=credigas_app
 DB_USERNAME=root
 DB_PASSWORD=
+
+Enlaces de documentación:
+
+Análisis y requerimientos: https://docs.google.com/presentation/d/1PUUBhBup3jybdoWOrmf6fiAbqr96nsyOMVsvLl-gkSc/edit#slide=id.p
+Diagrame E-R: https://lucid.app/lucidchart/2e8c0ddc-818e-4065-983b-5b1e5a0c833c/edit?beaconFlowId=DF7CF6E8516FF823&invitationId=inv_c04bdc32-d289-4f74-a540-96b24fcda596&page=0_0#
+
+
